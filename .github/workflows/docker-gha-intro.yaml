@@ -1,17 +1,16 @@
 ---
 name: Docker Build
 
-on: 
-  push: 
+on:
+  push:
     branches:
       - main
   pull_request:
 
 jobs:
   build-image:
-    name: Build Image
-    runs-on: ubuntu-latest
-    
+    name: Build Images
+    runs-on: ubuntu-latest   
     permissions:
       pull-requests: write # needed to create and update comments in PRs            
       
