@@ -15,7 +15,8 @@ jobs:
 
     permissions:
       pull-requests: write # needed to create and update comments in PRs
-
+    
+    steps:
       - name: Set up QEUM
         uses: docker/setup-qemu-action@v3      
 
