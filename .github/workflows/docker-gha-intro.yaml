@@ -11,7 +11,6 @@ jobs:
   build-image:
     name: Build Image
     runs-on: ubuntu-latest
-    steps:
 
     permissions:
       pull-requests: write # needed to create and update comments in PRs
