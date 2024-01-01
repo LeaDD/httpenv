@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    permissions:
+      pull-requests: write # needed to create and update comments in PRs
+
       - name: Set up QEUM
         uses: docker/setup-qemu-action@v3      
 
@@ -41,9 +44,41 @@ jobs:
       - name: Docker build
         uses: docker/build-push-action@v5
         with:
-          push: true
+          push: false # false for this demo to prevent overwriting image tags of other examples 
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }} 
           cache-from: type-gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64,linux/arm64,linux/arm/v7
+      
+      # If PR, put image tags in the PR comments
+      # from https://github.com/marketplace/actions/create-or-update-comment
+      - name: Find comment for image tags
+        uses: peter-evans/find-comment@v2
+        if: github.event_name == 'pull_request'
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull-request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Docker image tag(s) pushed
+
+          # if PR, put image tags in the PR comments  
+      - name: Create or update comment for image tags
+        uses: peter-evans/create-or-update-comment@v3
+        if: github.event_name == 'pull_request'
+        with: 
+          comment-id: ${{ steps.dc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            Docker image tags(s) pushed:
+            ```text
+            ${{ steps.docker_meta.outputs.tags}}
+            ```
+
+            Labels added to images:
+            ```text
+            ${{ steps.docker_meta.outputs.labels }}
+            ```
+          edit-mode: replace
+
+
