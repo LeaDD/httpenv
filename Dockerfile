@@ -1,5 +1,5 @@
 # sample dockerfile for testing docker builds
-FROM nginx:1.20-alpine as base
+FROM nginx:1.25.3-alpine as base
 
 RUN apk add --no-cache curl
 
@@ -17,4 +17,4 @@ RUN apk add --no-cache apache2-utils
 #########################
 FROM base as final
 
-# this layer gets built by default unless you set target to test
+# this layer gets built by default unless you set target to testcurl: HSTS ignored on multiple requests
