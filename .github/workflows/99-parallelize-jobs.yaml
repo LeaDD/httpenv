@@ -1,4 +1,3 @@
-
 ---
 name: 99 Parallelize Jobs
 
@@ -237,7 +236,7 @@ jobs:
         id: docker_meta
         uses: docker/metadata-action@v5
         with:
-          images: leadd812/docker-ci-automation,ghcr.io/bretfisher/docker-ci-automation
+          images: bretfisher/docker-ci-automation,ghcr.io/bretfisher/docker-ci-automation
           flavor: |
             latest=false
           tags: |
